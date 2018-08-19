@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: api-gateway #服务名称
+  # 配置中心
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      profile: dev
+#注册到eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: api-gateway
+    prefer-ip-address: true
