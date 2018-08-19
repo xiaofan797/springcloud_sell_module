@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: order #微服务名称
+  cloud:
+    config:
+        discovery:
+          enabled: true
+          service-id: config-server
+        profile: dev
+#    stream:
+#      binders:
+#        myMessage:
+#          group: order
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: order
+    prefer-ip-address: true
+#    hostname: eurekaClientHost
