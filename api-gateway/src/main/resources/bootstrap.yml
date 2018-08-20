@@ -18,9 +18,6 @@ eureka:
   instance:
     instance-id: api-gateway
     prefer-ip-address: true
-ribbon:
-  ReadTimeout: 60000
-  ConnectTimeout: 60000
 #management:
 #  security:
 #    enabled: false
