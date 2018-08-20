@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: product #微服务名称
