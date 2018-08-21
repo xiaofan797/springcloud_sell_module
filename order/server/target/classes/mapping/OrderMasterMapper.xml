@@ -17,7 +17,7 @@
     order_id, buyer_name, buyer_phone, buyer_address, buyer_openid, order_amount, order_status, 
     pay_status, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from order_master
@@ -105,7 +105,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xiaofan.sell.order.pojo.OrderMaster" >
+  <update id="update" parameterType="com.xiaofan.sell.order.pojo.OrderMaster" >
     update order_master
     <set >
       <if test="buyerName != null" >

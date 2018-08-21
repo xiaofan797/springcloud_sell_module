@@ -11,9 +11,9 @@ public interface OrderMasterMapper {
     //新增订单概要信息
     int add(OrderMaster record);
 
-    OrderMaster selectByPrimaryKey(String orderId);
+    OrderMaster findById(String orderId);
 
-    int updateByPrimaryKeySelective(OrderMaster record);
+    int update(OrderMaster record);
 
     int updateByPrimaryKey(OrderMaster record);
 }

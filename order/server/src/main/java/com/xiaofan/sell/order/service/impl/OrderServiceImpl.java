@@ -1,5 +1,7 @@
 package com.xiaofan.sell.order.service.impl;
 
+import com.xiaofan.sell.order.enums.ResultEnum;
+import com.xiaofan.sell.order.exception.OrderException;
 import com.xiaofan.sell.product.client.ProductClient;
 import com.xiaofan.sell.order.dao.OrderDetailMapper;
 import com.xiaofan.sell.order.pojo.OrderDetail;
@@ -82,5 +84,22 @@ public class OrderServiceImpl implements OrderService {
         orderMasterMapper.add(orderMaster);
         orderDTO.setOrderId(orderId);
         return orderDTO;
+    }
+
+    @Override
+    public OrderMaster finishOrder(String orderId) {
+        //判断订单是否存在
+        OrderMaster orderMaster = orderMasterMapper.findById(orderId);
+        if(orderMaster==null){
+            throw new OrderException(ResultEnum.ORDER_NOT_EXIST);
+        }
+        //判断订单是否是可以完结（是否新订单）
+        if(OrderStatusEnum.NEW.getCode()!= orderMaster.getOrderStatus()){
+            throw new OrderException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+        //完结订单
+        orderMaster.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+        orderMasterMapper.update(orderMaster);
+        return orderMaster;
     }
 }
