@@ -1,1 +1,2 @@
 com\xiaofan\sell\product\client\ProductClient.class
+com\xiaofan\sell\product\fallback\ProductClientFallback.class

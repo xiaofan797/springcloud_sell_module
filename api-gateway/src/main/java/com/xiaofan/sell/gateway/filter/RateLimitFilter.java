@@ -15,7 +15,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 @Component
 public class RateLimitFilter extends ZuulFilter {
 
-    private final static  RateLimiter RATE_LIMITER = RateLimiter.create(1); // 限制每秒不超过10个任务被提交
+    private final static  RateLimiter RATE_LIMITER = RateLimiter.create(10); // 限制每秒不超过10个任务被提交
 
     @Override
     public String filterType() {
