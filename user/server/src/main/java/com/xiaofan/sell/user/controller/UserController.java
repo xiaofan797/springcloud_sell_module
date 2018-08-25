@@ -64,7 +64,7 @@ public class UserController {
                                 HttpServletResponse response){
         String token = CookieUtils.getCookieValue(request, "token");
 
-        if(token!=null){//从redis中查找
+        if(!StringUtils.isEmpty(token)){//从redis中查找
             String key = String.format(RedisConstants.TOKEN_TEMPLATE,token);
             String value = stringRedisTemplate.opsForValue().get(key);
             if(StringUtils.isEmpty(value)){

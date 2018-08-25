@@ -3,7 +3,11 @@ package com.xiaofan.sell.gateway.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import com.xiaofan.sell.gateway.constants.RedisConstants;
 import com.xiaofan.sell.gateway.utils.CookieUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +17,14 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
- * 买家过滤
+ * 卖家过滤
  */
 @Component
 public class AuthSellerFilter extends ZuulFilter {
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
     @Override
     public String filterType() {
         return PRE_TYPE;
@@ -31,7 +39,10 @@ public class AuthSellerFilter extends ZuulFilter {
     public boolean shouldFilter() {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
-        if(request.getRequestURI().contains("/order/create")){
+        /**
+         * /order/finish 只能卖家访问
+         */
+        if (request.getRequestURI().contains("/order/finish")) {
             return true;
         }
         return false;
@@ -41,19 +52,12 @@ public class AuthSellerFilter extends ZuulFilter {
     public Object run() throws ZuulException {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
-        String openid = CookieUtils.getCookieValue(request, "openid");
-        /**
-         * /order/create 只能买家访问
-         */
-        if(openid==null){
+        String token = CookieUtils.getCookieValue(request, "token");
+        if (StringUtils.isEmpty(token) ||
+                StringUtils.isEmpty(stringRedisTemplate.opsForValue().get(String.format(RedisConstants.TOKEN_TEMPLATE,token)))) {
             requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());//拦截
             requestContext.setSendZuulResponse(false);
         }
-        /**
-         * /order/create 只能买家访问
-         * /order/finish 只能卖家访问
-         * /product/list 都可以访问
-         */
         return null;
     }
 }

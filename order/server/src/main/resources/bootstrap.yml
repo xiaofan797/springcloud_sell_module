@@ -1,3 +1,5 @@
+server:
+  port: 8084
 spring:
   application:
     name: order #微服务名称
@@ -18,4 +20,5 @@ eureka:
   instance:
     instance-id: order
     prefer-ip-address: true
+
 #    hostname: eurekaClientHost

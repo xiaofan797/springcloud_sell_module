@@ -3,6 +3,8 @@ package com.xiaofan.sell.gateway.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import com.xiaofan.sell.gateway.utils.CookieUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +13,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
- * token 过滤
+ * 买家过滤
  */
 @Component
 public class AuthBuyerFilter extends ZuulFilter {
@@ -27,13 +29,26 @@ public class AuthBuyerFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        return true;
+        RequestContext requestContext = RequestContext.getCurrentContext();
+        HttpServletRequest request = requestContext.getRequest();
+        /**
+         * /order/create 只能买家访问
+         */
+        if(request.getRequestURI().contains("/order/create")){
+            return true;
+        }
+        return false;
     }
 
     @Override
     public Object run() throws ZuulException {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
+        String openid = CookieUtils.getCookieValue(request, "openid");
+        if(openid==null){
+            requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());//拦截
+            requestContext.setSendZuulResponse(false);
+        }
         /**
          * /order/create 只能买家访问
          * /order/finish 只能卖家访问

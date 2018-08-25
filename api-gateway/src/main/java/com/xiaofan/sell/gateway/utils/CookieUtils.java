@@ -1,6 +1,7 @@
-package com.xiaofan.sell.user.utils;
+package com.xiaofan.sell.gateway.utils;
 
-import com.xiaofan.sell.user.constants.CookieConstants;
+import com.xiaofan.sell.gateway.constants.CookieConstants;
+import com.xiaofan.sell.gateway.constants.CookieConstants;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
