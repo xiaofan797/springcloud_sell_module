@@ -15,6 +15,7 @@ import com.xiaofan.sell.product.common.DecreaseStockInput;
 import com.xiaofan.sell.product.common.ProductInfoOutput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -33,7 +34,8 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-
+//    @Value("${spring.sleuth.sampler.probability}")
+//    private double probability;
     /**
      * 创建订单
      * @param orderForm
@@ -42,6 +44,7 @@ public class OrderController {
      */
     @PostMapping("/create")
     public ResultVO create(@Valid OrderForm orderForm, BindingResult bindingResult){
+//        log.info("probability={}",probability);
         //1.参数校验
         if (bindingResult.hasErrors()){
             log.error("【创建订单】参数不正确, orderForm={}", orderForm);

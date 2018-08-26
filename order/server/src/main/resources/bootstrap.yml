@@ -3,16 +3,22 @@ server:
 spring:
   application:
     name: order #微服务名称
+  zipkin:
+    base-url: http://localhost:9411/
   cloud:
     config:
         discovery:
           enabled: true
           service-id: config-server
         profile: dev
+  sleuth:
+    sampler:
+      probability: 1.0
 #    stream:
 #      binders:
 #        myMessage:
 #          group: order
+
 eureka:
   client:
     service-url:
@@ -22,3 +28,6 @@ eureka:
     prefer-ip-address: true
 
 #    hostname: eurekaClientHost
+logging:
+  level:
+    org.springframework.cloud.openfeign: debug

@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SendMessageController {
 
-    @Autowired
-    StreamClient streamClient;
+//    @Autowired
+//    StreamClient streamClient;
 
     @GetMapping("/msg/send")
     public String sendMsg(){
         String msg = "hello World";
-        streamClient.output().send(MessageBuilder.withPayload(msg).build());
+//        streamClient.output().send(MessageBuilder.withPayload(msg).build());
         return msg;
     }
 
