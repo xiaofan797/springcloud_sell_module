@@ -11,14 +11,15 @@ spring:
           basedir: E:/localGit #本地git地址
           username: xiaofan797
           password: beckham797
-  rabbitmq:
-    host: localhost
-    virtual-host: /virtual_hontek
-    username: xiaofan
-    password: hontek
+#  rabbitmq:
+#    host: 192.168.1.200
+#    virtual-host: /virtual_hontek
+#    username: xiaofan
+#    password: hontek
 eureka:
   client:
     service-url:
+      #defaultZone: http://eureka:7001/eureka
       defaultZone: http://localhost:7001/eureka
   instance:
     instance-id: config-server
